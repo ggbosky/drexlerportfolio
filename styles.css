@@ -375,17 +375,16 @@ a { color: inherit; text-decoration: none; }
 
 /* Úzké obrazovky ----------------------------------------------------- */
 @media (max-width: 900px) {
-  /* Na úzkém displeji obtéká nadpis hlavu stejně jako na počítači,
-     jen svisle: TVOŘÍM nahoře, pod ním velká fotka na středu, ZNAČKY
-     obrysem dole přes košili a pod ním tlačítko. Fotka smí čepicí
-     zajet pod TVOŘÍM nejvýš o desetinu své výšky, brýle (asi 14 %
-     výšky snímku) tak zůstanou pod nadpisem. */
+  /* Na úzkém displeji: nadpis nahoře na středu pod menu (TVOŘÍM plné,
+     ZNAČKY obrysem), pod ním fotka přes celou šířku displeje. Hero je
+     tak vysoké, jak je potřeba, aby se fotka nemusela zmenšovat.
+     Čepice zajede pod nadpis jen o kousek, brýle (asi 14 % výšky
+     snímku) zůstanou pod ním. */
   .hero {
-    --f: min(calc((100vw - 2 * var(--rail)) * .29), 140px);
-    --nahore: calc(var(--nav-top) + var(--nav-h) + 1.14 * var(--f));
+    --f: min(calc((100vw - 2 * var(--rail)) * .30), 150px);
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto auto;
-    min-height: 100svh;
+    grid-template-rows: auto auto auto;
+    min-height: 0;
   }
 
   .hero__panel,
@@ -396,22 +395,25 @@ a { color: inherit; text-decoration: none; }
     position: absolute;
     z-index: 2;
     inset: auto 0 0 0;
-    height: 40%;
-    background: linear-gradient(to top, rgba(40, 4, 6, .85), rgba(40, 4, 6, 0));
+    height: 30%;
+    background: linear-gradient(to top, rgba(40, 4, 6, .8), rgba(40, 4, 6, 0));
     pointer-events: none;
   }
 
   .hero__portrait {
-    position: absolute;
+    position: relative;
+    grid-row: 3;
+    grid-column: 1;
     top: auto;
-    left: 50%;
+    left: auto;
     right: auto;
-    bottom: 0;
-    width: auto;
-    height: min(calc((100svh - var(--nahore)) / .9), 190vw);
-    /* Hlava leží v pravé části snímku (zhruba 20–95 % šířky), proto
-       posun o víc než polovinu: na střed obrazovky se dostane obličej. */
-    transform: translateX(-57%);
+    bottom: auto;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    /* Snímek je 695 × 1130: desetina jeho výšky zajede pod nadpis. */
+    margin-top: calc(-.1 * 100vw * 1130 / 695);
+    transform: none;
   }
 
   .hero__left {
@@ -419,7 +421,7 @@ a { color: inherit; text-decoration: none; }
     grid-row: 1;
     z-index: 3;
     align-items: center;
-    padding: calc(var(--nav-top) + var(--nav-h) - 6px) var(--rail) 0;
+    padding: calc(var(--nav-top) + var(--nav-h) + 6px) var(--rail) 0;
   }
 
   .hero__title,
@@ -440,26 +442,30 @@ a { color: inherit; text-decoration: none; }
 
   .hero__druhy {
     position: relative;
-    grid-row: 3;
+    grid-row: 2;
+    grid-column: 1;
     top: auto;
     right: auto;
     z-index: 3;
     justify-self: center;
-    margin: 0 0 16px;
+    margin: .02em 0 0;
     color: transparent;
     -webkit-text-stroke: 1.6px var(--paper);
     -webkit-mask-image: none;
     mask-image: none;
   }
 
+  /* Tlačítko leží dole přes košili, na středu. */
   .hero .btn--hero {
     position: relative;
     z-index: 4;
-    grid-row: 4;
+    grid-row: 3;
+    grid-column: 1;
+    align-self: end;
     right: auto;
     bottom: auto;
     justify-self: center;
-    margin: 0 var(--rail) calc(26px + env(safe-area-inset-bottom));
+    margin: 0 var(--rail) 28px;
     background: var(--paper);
     color: var(--ink);
   }
