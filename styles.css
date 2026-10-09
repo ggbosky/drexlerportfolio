@@ -375,15 +375,16 @@ a { color: inherit; text-decoration: none; }
 
 /* Úzké obrazovky ----------------------------------------------------- */
 @media (max-width: 900px) {
-  /* Na úzkém displeji je nadpis nahoře na středu (TVOŘÍM plné,
-     ZNAČKY obrysem), pod ním fotka stojící na spodní hraně a dole na
-     středu tlačítko. Fotka je vysoká tak, aby začínala až pod nadpisem;
-     obrys přes vlasy by nebyl čitelný. */
+  /* Na úzkém displeji obtéká nadpis hlavu stejně jako na počítači,
+     jen svisle: TVOŘÍM nahoře, pod ním velká fotka na středu, ZNAČKY
+     obrysem dole přes košili a pod ním tlačítko. Fotka smí čepicí
+     zajet pod TVOŘÍM nejvýš o desetinu své výšky, brýle (asi 14 %
+     výšky snímku) tak zůstanou pod nadpisem. */
   .hero {
-    --f: min(calc((100vw - 2 * var(--rail)) * .21), 110px);
-    --nahore: calc(var(--nav-top) + var(--nav-h) + 2.32 * var(--f));
+    --f: min(calc((100vw - 2 * var(--rail)) * .29), 140px);
+    --nahore: calc(var(--nav-top) + var(--nav-h) + 1.14 * var(--f));
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-rows: auto 1fr auto auto;
     min-height: 100svh;
   }
 
@@ -395,8 +396,8 @@ a { color: inherit; text-decoration: none; }
     position: absolute;
     z-index: 2;
     inset: auto 0 0 0;
-    height: 34%;
-    background: linear-gradient(to top, rgba(40, 4, 6, .8), rgba(40, 4, 6, 0));
+    height: 40%;
+    background: linear-gradient(to top, rgba(40, 4, 6, .85), rgba(40, 4, 6, 0));
     pointer-events: none;
   }
 
@@ -407,7 +408,7 @@ a { color: inherit; text-decoration: none; }
     right: auto;
     bottom: 0;
     width: auto;
-    height: min(calc(100svh - var(--nahore) - 4px), 172vw);
+    height: min(calc((100svh - var(--nahore)) / .9), 190vw);
     /* Hlava leží v pravé části snímku (zhruba 20–95 % šířky), proto
        posun o víc než polovinu: na střed obrazovky se dostane obličej. */
     transform: translateX(-57%);
@@ -439,12 +440,12 @@ a { color: inherit; text-decoration: none; }
 
   .hero__druhy {
     position: relative;
-    grid-row: 2;
+    grid-row: 3;
     top: auto;
     right: auto;
     z-index: 3;
     justify-self: center;
-    margin: .02em 0 0;
+    margin: 0 0 16px;
     color: transparent;
     -webkit-text-stroke: 1.6px var(--paper);
     -webkit-mask-image: none;
