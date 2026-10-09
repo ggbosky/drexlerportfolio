@@ -23,6 +23,23 @@ const SILUETA = [
   0.0043, 0.0072,
 ];
 
+/* Pravý okraj neprůhledné části portrétu, změřený stejně jako SILUETA.
+   Podle něj se za tvář staví druhé slovo na bílé kartě. */
+const SILUETA_PRAVA = [
+  0.7165, 0.7338, 0.7396, 0.7439, 0.7482, 0.764, 0.7784, 0.8317, 0.8532,
+  0.859, 0.859, 0.8576, 0.8475, 0.8504, 0.8705, 0.8863, 0.8964, 0.9079,
+  0.9094, 0.9137, 0.9165, 0.9165, 0.9209, 0.9266, 0.9309, 0.9353, 0.9353,
+  0.9309, 0.9237, 0.918, 0.9094, 0.9237, 0.9309, 0.9367, 0.9381, 0.9381,
+  0.9396, 0.9396, 0.9381, 0.9353, 0.9309, 0.9309, 0.9396, 0.9453, 0.9482,
+  0.9482, 0.9439, 0.9381, 0.9252, 0.9036, 0.8475, 0.8158, 0.7986, 0.7899,
+  0.7813, 0.7799, 0.777, 0.7741, 0.7683, 0.764, 0.754, 0.7468, 0.741,
+  0.7367, 0.7338, 0.7554, 0.777, 0.7971, 0.8173, 0.8403, 0.8633, 0.8835,
+  0.9079, 0.9122, 0.9094, 0.9022, 0.8921, 0.8806, 0.8691, 0.882, 0.9079,
+  0.9324, 0.9554, 0.9813, 0.9813, 0.9712, 0.9712, 0.9698, 0.9698, 0.9698,
+  0.9698, 0.9698, 0.9698, 0.9698, 0.9698, 0.9712, 0.9799, 0.9842, 0.9914,
+  0.9957,
+];
+
 /* O kolik smí nadpis zajet za obrys — v předloze poslední písmeno mizí
    jen špičkou — písmeno musí zůstat čitelné. Podíl šířky nadpisu. */
 const PREKRYV = 0.055;
@@ -30,17 +47,20 @@ const PREKRYV = 0.055;
 const hero = document.querySelector('.hero');
 const title = document.querySelector('.hero__title');
 const portret = document.querySelector('.hero__portrait');
+const druhy = document.querySelector('.hero__druhy');
+const panel = document.querySelector('.hero__panel');
 
-function obrysVPasu(portretRect, odY, doY) {
-  // Nejmenší (nejlevější) okraj siluety v pásu, který nadpis zabírá.
+function obrysVPasu(portretRect, odY, doY, obrys = SILUETA, vyber = Math.min) {
+  // Krajní okraj siluety v pásu, který nadpis zabírá: levý (nejmenší)
+  // pro nadpis, pravý (největší) pro druhé slovo.
   const vyska = portretRect.height;
-  let min = 1;
-  for (let i = 0; i < SILUETA.length; i++) {
-    const y = portretRect.top + (vyska * i) / SILUETA.length;
-    if (y < odY - vyska / SILUETA.length || y > doY) continue;
-    if (SILUETA[i] < min) min = SILUETA[i];
+  let krajni = null;
+  for (let i = 0; i < obrys.length; i++) {
+    const y = portretRect.top + (vyska * i) / obrys.length;
+    if (y < odY - vyska / obrys.length || y > doY) continue;
+    krajni = krajni === null ? obrys[i] : vyber(krajni, obrys[i]);
   }
-  return min;
+  return krajni ?? (vyber === Math.min ? 1 : 0);
 }
 
 function dolad() {
@@ -48,7 +68,10 @@ function dolad() {
 
   title.style.fontSize = '';
   // Na mobilu stojí nadpis nad portrétem, takže se k hlavě nedolaďuje.
-  if (matchMedia('(max-width: 900px)').matches) return;
+  if (matchMedia('(max-width: 900px)').matches) {
+    if (druhy) druhy.style.cssText = '';
+    return;
+  }
   const t = title.getBoundingClientRect();
   const p = portret.getBoundingClientRect();
   if (!t.width || !p.width) return;
@@ -63,6 +86,35 @@ function dolad() {
   // Meze, ať nadpis nepřeroste desku ani nezmizí.
   const strop = hero.clientHeight * 0.50;
   title.style.fontSize = Math.max(40, Math.min(nova, strop)) + 'px';
+
+  dosad(p);
+}
+
+/* Druhé slovo: stejně velké jako nadpis, na stejné účaří, zleva zajede
+   za tvář o stejný kousek jako nadpis zprava. Když se mezi tvář a okraj
+   karty nevejde, zmenší se. */
+function dosad(p) {
+  if (!druhy || !panel) return;
+  druhy.style.cssText = '';
+  const h = hero.getBoundingClientRect();
+  const t = title.getBoundingClientRect();
+  const k = panel.getBoundingClientRect();
+
+  druhy.style.fontSize = getComputedStyle(title).fontSize;
+  druhy.style.right = 'auto';
+  druhy.style.transformOrigin = 'left center';
+  let d = druhy.getBoundingClientRect();
+
+  const tvar = obrysVPasu(p, t.top, t.bottom, SILUETA_PRAVA, Math.max);
+  const zacatek = p.left + p.width * tvar - d.width * PREKRYV;
+  const misto = k.right - (k.right - k.left) * 0.06 - zacatek;
+  if (misto <= 0) return;
+  if (d.width > misto) {
+    druhy.style.fontSize = parseFloat(druhy.style.fontSize) * (misto / d.width) + 'px';
+    d = druhy.getBoundingClientRect();
+  }
+  druhy.style.left = (zacatek - h.left) + 'px';
+  druhy.style.top = (t.bottom - h.top - d.height) + 'px';
 }
 
 if (portret) {

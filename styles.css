@@ -290,7 +290,30 @@ a { color: inherit; text-decoration: none; }
   mask-image: linear-gradient(90deg, #000 0 93%, rgba(0, 0, 0, .55) 97.5%, transparent 100%);
 }
 
-.hero__title .line {
+/* Druhé slovo stojí zrcadlově na bílé kartě: tmavé, stejně velké a
+   vytrácí se do tváře zleva. Bez JS stojí aspoň vpravo u okraje. */
+.hero__druhy {
+  position: absolute;
+  z-index: 1;
+  top: 30%;
+  right: calc(var(--rail) + var(--nav-top));
+  margin: 0;
+  font-family: var(--hero-face);
+  font-weight: 400;
+  font-size: clamp(92px, 17.3vw, 300px);
+  line-height: .84;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transform: scaleX(.72);
+  transform-origin: right center;
+  width: fit-content;
+  -webkit-mask-image: linear-gradient(270deg, #000 0 93%, rgba(0, 0, 0, .55) 97.5%, transparent 100%);
+  mask-image: linear-gradient(270deg, #000 0 93%, rgba(0, 0, 0, .55) 97.5%, transparent 100%);
+}
+
+.hero__title .line,
+.hero__druhy .line {
   display: block;
   overflow: hidden;
   /* Prostor pro háček a čárku. Záporný margin by je vystrčil nad box
@@ -298,7 +321,8 @@ a { color: inherit; text-decoration: none; }
   padding-top: .30em;
 }
 
-.hero__title .line > span {
+.hero__title .line > span,
+.hero__druhy .line > span {
   display: block;
   transform: translateY(105%);
   animation: rise 1s cubic-bezier(.16,1,.3,1) .15s forwards;
@@ -365,7 +389,7 @@ a { color: inherit; text-decoration: none; }
      Vedle sebe by portrét zakryl nadpis i tlačítko. */
   .hero {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto auto auto;
     min-height: 0;
   }
 
@@ -381,10 +405,25 @@ a { color: inherit; text-decoration: none; }
   /* Text na mobilu hustší, ať se na první obrazovku vejde i portrét. */
   .hero__title { font-size: clamp(80px, 26vw, 170px); }
 
+  /* Na mobilu není bílá karta: druhé slovo je bílý druhý řádek nadpisu. */
+  .hero__druhy {
+    position: relative;
+    grid-row: 2;
+    top: auto;
+    right: auto;
+    z-index: 3;
+    margin: .04em var(--rail) 0;
+    font-size: clamp(80px, 26vw, 170px);
+    color: var(--paper);
+    transform-origin: left center;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
   /* Na červené je tlačítko zase bílé a stojí pod nadpisem. */
   .hero .btn--hero {
     position: relative;
-    grid-row: 2;
+    grid-row: 3;
     right: auto;
     bottom: auto;
     justify-self: start;
@@ -397,7 +436,7 @@ a { color: inherit; text-decoration: none; }
 
   .hero__portrait {
     position: relative;
-    grid-row: 3;
+    grid-row: 4;
     left: auto;
     bottom: auto;
     justify-self: end;
@@ -450,5 +489,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__title .line > span { transform: none; animation: none; }
+  .hero__title .line > span,
+  .hero__druhy .line > span { transform: none; animation: none; }
 }
