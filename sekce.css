@@ -590,6 +590,30 @@
 
 .mrizka figure { aspect-ratio: 16 / 9; }
 
+/* Popisek kanálu nad každou mřížkou náhledů. */
+.mrizka__kanal {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.mrizka + .mrizka__kanal { margin-top: clamp(28px, 4vh, 44px); }
+
+.mrizka__kanal a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid #ddd6cd;
+  transition: color .25s ease, border-color .25s ease;
+}
+
+.mrizka__kanal a svg { width: 14px; height: 14px; }
+
+.mrizka__kanal a:hover { color: var(--red-600); border-color: var(--red-600); }
+
 /* 4. Loga: průhledná, každé ve stejně velkém čtverci přímo na papíře. */
 .znacky {
   display: grid;
