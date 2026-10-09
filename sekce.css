@@ -75,23 +75,44 @@
   background: var(--ink);
 }
 
+/* Fotky jsou z různých zdrojů, proto je sjednocuje černobílý základ
+   s červeným tónem. Při najetí se vrátí barva. */
 .obory img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Práce má být vidět, ne tušena: snímky jedou v plné barvě a velikosti. */
   object-position: 50% 40%;
+  filter: grayscale(1) contrast(1.12);
   transform: scale(1.02);
-  transition: transform .7s cubic-bezier(.16, 1, .3, 1);
+  transition: transform .7s cubic-bezier(.16, 1, .3, 1), filter .6s ease;
 }
+
+.obory li::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(150deg, var(--red-500), var(--brick));
+  mix-blend-mode: multiply;
+  opacity: .66;
+  transition: opacity .6s ease;
+  pointer-events: none;
+}
+
+.obory li:hover img,
+.obory li:focus-within img { filter: none; }
+
+.obory li:hover::before,
+.obory li:focus-within::before { opacity: 0; }
 
 /* Clona drží jen spodní pruh, kde sedí popisek. Přes celou dlaždici by
    zase zhasla fotku. */
 .obory li::after {
   content: "";
   position: absolute;
+  z-index: 1;
   inset: auto 0 0 0;
   height: 62%;
   background: linear-gradient(to top,
@@ -103,7 +124,7 @@
 
 .obory__text {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -147,32 +168,47 @@
 .obory li:focus-within .obory__popis { grid-template-rows: 1fr; opacity: 1; }
 
 /* Časová osa --------------------------------------------------------- */
+/* Roky stojí vlevo, popisy vpravo, mezi nimi linka. Při scrollu se linka
+   plní červenou (--postup nastavuje JS) a body i roky, kolem kterých
+   už prošla, se rozsvítí. */
 .osa {
-  margin: clamp(36px, 5.5vh, 64px) 0 0;
+  --rok-sirka: clamp(120px, 15vw, 210px);
+  --osa-x: calc(var(--rok-sirka) + 28px);
+  position: relative;
+  max-width: 980px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.osa {
-  position: relative;
-  max-width: 760px;
-  margin-inline: 0;
-}
-
-/* Linka osy vede za body, proto leží pod nimi. */
-.osa::before {
+.osa::before,
+.osa::after {
   content: "";
   position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 5px;
-  width: 1px;
-  background: rgba(255, 255, 255, .18);
+  top: 12px;
+  bottom: 12px;
+  left: var(--osa-x);
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 2px;
+}
+
+.osa::before { background: rgba(255, 255, 255, .12); }
+
+.osa::after {
+  bottom: auto;
+  height: calc((100% - 24px) * var(--postup, 0));
+  background: linear-gradient(to bottom, var(--red-600), var(--red-400));
+  box-shadow: 0 0 18px rgba(255, 74, 61, .45);
 }
 
 .osa li {
   position: relative;
-  padding: 0 0 clamp(26px, 3.6vh, 40px) clamp(26px, 2.4vw, 38px);
+  display: grid;
+  grid-template-columns: var(--rok-sirka) minmax(0, 1fr);
+  column-gap: 56px;
+  align-items: start;
+  padding-bottom: clamp(34px, 5.5vh, 60px);
 }
 
 .osa li:last-child { padding-bottom: 0; }
@@ -180,37 +216,84 @@
 .osa li::before {
   content: "";
   position: absolute;
+  z-index: 1;
   top: 7px;
-  left: 0;
-  width: 11px;
-  height: 11px;
+  left: calc(var(--osa-x) - 7px);
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: var(--red-500);
-  box-shadow: 0 0 0 4px var(--ink);
+  background: #3a332e;
+  box-shadow: 0 0 0 5px var(--ink);
+  transition: background-color .4s ease, box-shadow .4s ease;
+}
+
+.osa li.je-aktivni::before {
+  background: var(--red-400);
+  box-shadow: 0 0 0 5px var(--ink), 0 0 0 10px rgba(255, 74, 61, .22);
 }
 
 .osa__rok {
-  display: block;
-  margin-bottom: 4px;
   font-family: var(--hero-face);
-  font-size: 15px;
-  letter-spacing: .04em;
-  color: var(--red-400);
+  font-size: clamp(26px, 3.2vw, 46px);
+  line-height: .95;
+  letter-spacing: .01em;
+  text-align: right;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .2);
+  transition: color .5s ease;
 }
 
+.je-aktivni .osa__rok { color: var(--red-400); }
+
+.osa li > div {
+  transform: translateX(14px);
+  opacity: .45;
+  transition: opacity .5s ease, transform .6s cubic-bezier(.16, 1, .3, 1);
+}
+
+.osa li.je-aktivni > div { opacity: 1; transform: none; }
+
 .osa h3 {
-  margin: 0 0 5px;
-  font-size: clamp(18px, 1.6vw, 22px);
+  margin: 0 0 6px;
+  font-size: clamp(20px, 1.9vw, 26px);
   font-weight: 600;
   letter-spacing: -.01em;
 }
 
 .osa p {
   margin: 0;
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 15px;
+  line-height: 1.55;
   color: rgba(255, 255, 255, .66);
   max-width: 58ch;
+}
+
+.osa__odkaz {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, .3);
+  transition: color .25s ease, border-color .25s ease;
+}
+
+.osa__odkaz svg { width: 16px; height: 16px; }
+
+.osa__odkaz:hover { color: var(--red-400); border-color: var(--red-400); }
+
+@media (max-width: 720px) {
+  /* Na úzkém displeji jde linka po levém okraji a rok stojí nad popisem. */
+  .osa { --osa-x: 7px; }
+  .osa li {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+    padding-left: 38px;
+  }
+  .osa__rok { text-align: left; font-size: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .osa li > div { transform: none; transition: none; }
+  .osa li::before, .osa__rok { transition: none; }
 }
 
 /* Projekty ----------------------------------------------------------- */
@@ -322,7 +405,6 @@
 
 @media (max-width: 720px) {
   .obory { grid-template-columns: 1fr; }
-  .osa li { grid-template-columns: 1fr; gap: 6px; }
   .formular { grid-template-columns: 1fr; }
 }
 
@@ -357,9 +439,8 @@
   max-width: 58ch;
 }
 
-/* Společný vzhled dlaždic napříč všemi třemi mřížkami. */
-.pruvod figure,
-.bento figure,
+/* Společný vzhled dlaždic napříč mřížkami. */
+.post__snimky figure,
 .mrizka figure,
 .znacky figure {
   position: relative;
@@ -369,8 +450,7 @@
   background: var(--bone);
 }
 
-.pruvod img,
-.bento img,
+.post__snimky img,
 .mrizka img,
 .znacky img {
   display: block;
@@ -380,41 +460,97 @@
   transition: transform .7s cubic-bezier(.16, 1, .3, 1);
 }
 
-.pruvod figure:hover img,
-.bento figure:hover img,
+.post__snimky figure:hover img,
 .mrizka figure:hover img { transform: scale(1.04); }
 
-/* 1. Vodorovný průvod, jako se carousel čte na Instagramu. */
-.pruvod {
+/* 1. a 2. Instagramové carousely: všechny snímky naráz v rámečku
+   jednoho příspěvku, s hlavičkou účtu nahoře a lištou ikon dole. */
+.post {
+  padding: clamp(12px, 1.4vw, 18px);
+  border: 1px solid #e7e1da;
+  border-radius: 24px;
+  background: var(--paper);
+  box-shadow: 0 24px 60px -30px rgba(22, 18, 15, .28);
+}
+
+.post__hlava {
   display: flex;
-  gap: clamp(12px, 1.6vw, 20px);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  /* Snímky se přichytávají k okraji obsahu, ne k okraji okna. */
-  scroll-padding-inline: var(--rail);
-  margin: 0 calc(-1 * var(--rail));
-  padding: 0 var(--rail) 14px;
-  scrollbar-width: thin;
-  scrollbar-color: #d8d1c8 transparent;
+  align-items: center;
+  gap: 12px;
+  padding: 2px 4px 14px;
 }
 
-.pruvod:focus-visible { outline: 2px solid var(--red-600); outline-offset: 4px; }
-
-.pruvod figure {
-  flex: 0 0 auto;
-  width: clamp(178px, 19vw, 258px);
-  aspect-ratio: 4 / 5;
-  scroll-snap-align: start;
+.post__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--red-500);
 }
 
-/* 2. Green Line: pět stejných snímků vedle sebe, žádný není hlavní. */
-.bento {
+.post__jmeno {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.post__typ {
+  margin: 1px 0 0;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+.post__ig {
+  width: 22px;
+  height: 22px;
+  margin-left: auto;
+  color: var(--ink-soft);
+}
+
+.post__snimky {
   display: grid;
-  gap: clamp(10px, 1.4vw, 18px);
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  border-radius: 14px;
+  overflow: hidden;
 }
 
-.bento figure { aspect-ratio: 4 / 5; }
+.post__snimky figure {
+  aspect-ratio: 4 / 5;
+  border-radius: 0;
+  cursor: zoom-in;
+}
+
+/* Pořadí snímku v příspěvku, jako počítadlo na Instagramu. */
+.post__snimky { counter-reset: snimek; }
+
+.post__snimky figure::after {
+  counter-increment: snimek;
+  content: counter(snimek) " / " var(--pocet);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(22, 18, 15, .62);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.post__snimky--10 { --pocet: "10"; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.post__snimky--5 { --pocet: "5"; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+.post__pata {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 4px 2px;
+  color: var(--ink);
+}
+
+.post__pata svg { width: 24px; height: 24px; }
+.post__pata .post__ulozit { margin-left: auto; }
 
 /* 3. Pravidelná mřížka pro náhledy, které jsou samy o sobě obrazovky. */
 .mrizka {
@@ -446,15 +582,11 @@
 }
 
 @media (max-width: 900px) {
-  /* Pět snímků se na úzkém displeji nevejde, posouvají se do strany. */
-  .bento {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    margin: 0 calc(-1 * var(--rail));
-    padding: 0 var(--rail) 14px;
-  }
-  .bento figure { flex: 0 0 62%; scroll-snap-align: start; }
+  /* Na úzkém displeji jsou snímky po dvou; u pěti je první přes celou
+     šířku jako titulní. */
+  .post__snimky--10,
+  .post__snimky--5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .post__snimky--5 figure:first-child { grid-column: 1 / -1; }
   .mrizka { grid-template-columns: repeat(2, 1fr); }
   .znacky { grid-template-columns: repeat(2, 1fr); }
 }
@@ -464,10 +596,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pruvod figure:hover img,
-  .bento figure:hover img,
+  .post__snimky figure:hover img,
   .mrizka figure:hover img { transform: none; }
-  .pruvod img, .bento img, .mrizka img, .znacky img { transition: none; }
+  .post__snimky img, .mrizka img, .znacky img { transition: none; }
 }
 
 /* Kontakt ------------------------------------------------------------- */
@@ -673,38 +804,9 @@ a, button, input, textarea { touch-action: manipulation; }
 }
 
 
-.cesta__foto {
-  margin: 0;
-  overflow: hidden;
-  border-radius: 20px;
-}
-
-.cesta__foto img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* Osa a portrét vedle sebe; snímek se drží při scrollu v dohledu. */
-.cesta {
-  margin-top: clamp(36px, 5.5vh, 64px);
-  display: grid;
-  gap: clamp(26px, 4vw, 64px);
-  grid-template-columns: minmax(0, 1fr) minmax(0, .46fr);
-  align-items: start;
-}
-
-.cesta .osa { margin: 0; }
-
-.cesta__foto {
-  position: sticky;
-  top: clamp(88px, 12vh, 130px);
-}
-
+.cesta { margin-top: clamp(40px, 6vh, 72px); }
 
 @media (max-width: 900px) {
-  .cesta { grid-template-columns: 1fr; }
-  .cesta__foto { position: static; max-width: 420px; }
   .vyzva { grid-template-columns: 1fr; }
 }
 
@@ -1038,40 +1140,45 @@ a, button, input, textarea { touch-action: manipulation; }
 
 .blok__hlava p { font-size: 16px; }
 
-/* Nadpis bloku se šipkami průvodu vpravo. */
-.blok__hlava--sipky {
+/* Kanál Deníku Hokeje: avatar vedle nadpisu a odkaz na YouTube. */
+.kanal {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
+  align-items: center;
+  gap: clamp(14px, 1.6vw, 22px);
 }
 
-.pruvod__sipky { display: flex; gap: 10px; flex-shrink: 0; }
-
-.pruvod__sipka {
-  display: grid;
-  place-content: center;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border: 1px solid #ddd6cd;
+.kanal__avatar {
+  flex-shrink: 0;
+  width: clamp(64px, 6.4vw, 96px);
+  height: clamp(64px, 6.4vw, 96px);
   border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--red-500);
+}
+
+.kanal__odkaz {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px 10px 14px;
+  border: 1px solid #e2dbd2;
+  border-radius: 999px;
   background: var(--paper);
-  color: var(--ink);
-  cursor: pointer;
-  transition: background .3s, color .3s, border-color .3s, opacity .3s;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color .3s ease, border-color .3s ease, color .3s ease;
 }
 
-.pruvod__sipka svg { width: 20px; height: 20px; }
+.kanal__odkaz svg { width: 22px; height: 22px; color: var(--red-600); transition: color .3s ease; }
 
-.pruvod__sipka:hover:not([disabled]) {
-  border-color: transparent;
-  background: var(--red-600);
-  color: var(--paper);
+.kanal__pocet {
+  padding-left: 10px;
+  border-left: 1px solid #e2dbd2;
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition: color .3s ease, border-color .3s ease;
 }
 
-.pruvod__sipka[disabled] { opacity: .35; cursor: default; }
-
-@media (max-width: 560px) {
-  .pruvod__sipky { display: none; }
-}
+.kanal__odkaz:hover { background: var(--red-600); border-color: var(--red-600); color: var(--paper); }
+.kanal__odkaz:hover svg,
+.kanal__odkaz:hover .kanal__pocet { color: var(--paper); border-color: rgba(255, 255, 255, .4); }

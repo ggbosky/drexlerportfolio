@@ -61,10 +61,10 @@
 <!-- Kdo jsem --------------------------------------------------------- -->
 <section class="sekce sekce--svetla" id="o-mne">
   <header class="sekce__hlava">
-    <h2 class="sekce__nadpis">Student, grafik,<br>střihač a vývojář.</h2>
+    <h2 class="sekce__nadpis">Grafik, střihač<br>a vývojář.</h2>
     <p class="sekce__lede">
-      Student multimediální komunikace, grafik, střihač, web developer
-      a mladý podnikatel.
+      Spojuju design, video, web a AI do jednoho celku. Od značky přes
+      obsah až po hotový produkt.
     </p>
   </header>
 
@@ -132,13 +132,9 @@
       <p>AI automatizace / weby / UX/UI / frontend / backend.</p></div></li>
     <li><span class="osa__rok">od 2026</span><div><h3>Offsidestore</h3>
       <p>Značka / e-commerce / social media / content.</p></div></li>
-    <li><span class="osa__rok">od 2026</span><div><h3>Projectone</h3>
+    <li><span class="osa__rok">od 2026</span><div><h3><a class="osa__odkaz" href="https://projectwo.com/" target="_blank" rel="noopener">Project Two<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M11 5H6.5M11 5v4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>
       <p>Weby, aplikace a automatizace pro firmy.</p></div></li>
     </ol>
-
-    <figure class="cesta__foto">
-      <img src="assets/img/portret-zrcadlo.webp" alt="Karel Drexler" decoding="async">
-    </figure>
   </div>
 </section>
 
@@ -146,58 +142,93 @@
 <section class="sekce sekce--svetla" id="prace">
   <header class="sekce__hlava">
     <p class="stitek">Portfolio</p>
-    <h2 class="sekce__nadpis">Deník Hokeje</h2>
+    <div class="kanal">
+      <img class="kanal__avatar" src="assets/img/prace/denik-hokeje-avatar.webp" alt="Logo kanálu Deník Hokeje" width="240" height="240" decoding="async">
+      <h2 class="sekce__nadpis">Deník Hokeje</h2>
+    </div>
     <p class="sekce__lede">
       Hokejové médium, kde propojuji vizuální identitu s rychlým redakčním
       provozem. Vizuály musí být čitelné během vteřiny a fungovat napříč formáty.
     </p>
+    <a class="kanal__odkaz" href="https://www.youtube.com/@DenikHokeje" target="_blank" rel="noopener">
+      <!-- Tabler Icons (MIT): brand-youtube -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z"/><path d="m10 9 5 3-5 3z"/></svg>
+      <span>Kanál na YouTube</span>
+      <span class="kanal__pocet">5 000+ odběratelů</span>
+    </a>
   </header>
 
-  <!-- Instagramový carousel zůstává vodorovný, protože tak ho čtou i lidé na IG.
-       Šipky ho posouvají, kliknutí na snímek ho zvětší. -->
+  <!-- Carousel je rozložený do mřížky v rámečku jednoho příspěvku: je vidět
+       celý najednou a přitom je jasné, že jde o jeden post. -->
   <article class="blok" data-galerie>
-    <div class="blok__hlava blok__hlava--sipky">
-      <div>
-        <p class="blok__druh">Instagram</p>
-        <h3>Ukázka carouselu</h3>
-        <p>Cesta napříč všemi MS, kde ČR a ČSSR získalo zlato, seřazená chronologicky. Deset snímků, kliknutím je zvětšíte.</p>
-      </div>
-      <div class="pruvod__sipky">
-        <button type="button" class="pruvod__sipka" data-smer="-1" aria-label="Předchozí snímky">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button type="button" class="pruvod__sipka" data-smer="1" aria-label="Další snímky">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
+    <div class="blok__hlava">
+      <p class="blok__druh">Instagram</p>
+      <h3>Ukázka carouselu</h3>
+      <p>Cesta napříč všemi MS, kde ČR a ČSSR získalo zlato, seřazená chronologicky. Jeden příspěvek o deseti snímcích, kliknutím je zvětšíte.</p>
     </div>
-    <div class="pruvod" tabindex="0">
-      <figure><img src="assets/img/prace/cas-00-cover.webp" alt="Jak šel čas, úvodní slide" decoding="async"></figure>
-      <figure><img src="assets/img/prace/cas-1947.webp" alt="MS 1947" decoding="async"></figure>
-      <figure><img src="assets/img/prace/cas-1985.webp" alt="MS 1985" decoding="async"></figure>
-      <figure><img src="assets/img/prace/cas-1996.webp" alt="MS 1996" decoding="async"></figure>
-      <figure><img src="assets/img/prace/cas-1999.webp" alt="MS 1999" decoding="async"></figure>
-      <figure><img src="assets/img/prace/cas-2000.webp" alt="MS 2000" decoding="async"></figure>
-      <figure><img src="assets/img/prace/cas-2001.webp" alt="MS 2001" decoding="async"></figure>
-      <figure><img src="assets/img/prace/cas-2005.webp" alt="MS 2005" decoding="async"></figure>
-      <figure><img src="assets/img/prace/cas-2010.webp" alt="MS 2010" decoding="async"></figure>
-      <figure><img src="assets/img/prace/cas-2024.webp" alt="MS 2024" decoding="async"></figure>
+    <div class="post">
+      <header class="post__hlava">
+        <img class="post__avatar" src="assets/img/prace/denik-hokeje-avatar.webp" alt="" width="240" height="240" decoding="async">
+        <div>
+          <p class="post__jmeno">Deník Hokeje</p>
+          <p class="post__typ">Instagram · carousel · 10 snímků</p>
+        </div>
+        <!-- Tabler Icons (MIT): brand-instagram -->
+        <svg class="post__ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3"/><path d="M16.5 7.5v.01"/></svg>
+      </header>
+      <div class="post__snimky post__snimky--10">
+        <figure><img src="assets/img/prace/cas-00-cover.webp" alt="Jak šel čas, úvodní slide" decoding="async"></figure>
+        <figure><img src="assets/img/prace/cas-1947.webp" alt="MS 1947" decoding="async"></figure>
+        <figure><img src="assets/img/prace/cas-1985.webp" alt="MS 1985" decoding="async"></figure>
+        <figure><img src="assets/img/prace/cas-1996.webp" alt="MS 1996" decoding="async"></figure>
+        <figure><img src="assets/img/prace/cas-1999.webp" alt="MS 1999" decoding="async"></figure>
+        <figure><img src="assets/img/prace/cas-2000.webp" alt="MS 2000" decoding="async"></figure>
+        <figure><img src="assets/img/prace/cas-2001.webp" alt="MS 2001" decoding="async"></figure>
+        <figure><img src="assets/img/prace/cas-2005.webp" alt="MS 2005" decoding="async"></figure>
+        <figure><img src="assets/img/prace/cas-2010.webp" alt="MS 2010" decoding="async"></figure>
+        <figure><img src="assets/img/prace/cas-2024.webp" alt="MS 2024" decoding="async"></figure>
+      </div>
+      <footer class="post__pata" aria-hidden="true">
+        <!-- Tabler Icons (MIT): heart, message-circle, send, bookmark -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.57 12 20l-7.5-7.43A5 5 0 1 1 12 6.01a5 5 0 1 1 7.5 6.57"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m3 20 1.3-3.9C1.98 12.66 2.87 8.23 6.4 5.73c3.53-2.5 8.6-2.3 11.86.47 3.26 2.78 3.7 7.25 1.02 10.46C16.6 19.87 11.5 20.84 7.4 18.9z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 21 3"/><path d="M21 3l-6.5 18a.55.55 0 0 1-1 0L10 14l-7-3.5a.55.55 0 0 1 0-1z"/></svg>
+        <svg class="post__ulozit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 7v14l-6-4-6 4V7a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4"/></svg>
+      </footer>
     </div>
   </article>
 
-  <!-- Pět dílů Green Line, pět stejně velkých buněk: žádný není hlavní. -->
+  <!-- Green Line je taky jeden carousel o pěti snímcích, proto stejný rámeček. -->
   <article class="blok" data-galerie>
     <div class="blok__hlava">
       <p class="blok__druh">Instagram</p>
       <h3>Ukázka postů</h3>
-      <p>Green Line: sovětská pětka, která byla nejděsivější v historii hokeje. Pět snímků, kliknutím je zvětšíte.</p>
+      <p>Green Line: sovětská pětka, která byla nejděsivější v historii hokeje. Jeden příspěvek o pěti snímcích, kliknutím je zvětšíte.</p>
     </div>
-    <div class="bento">
-      <figure><img src="assets/img/prace/green-1.webp" alt="Green Line, nejděsivější pětka" decoding="async"></figure>
-      <figure><img src="assets/img/prace/green-2.webp" alt="Ikonická trojice KLM Line" decoding="async"></figure>
-      <figure><img src="assets/img/prace/green-3.webp" alt="Tichonovo peklo" decoding="async"></figure>
-      <figure><img src="assets/img/prace/green-4.webp" alt="Fetisov a Kasatonov" decoding="async"></figure>
-      <figure><img src="assets/img/prace/green-5.webp" alt="Nedostižný odkaz" decoding="async"></figure>
+    <div class="post">
+      <header class="post__hlava">
+        <img class="post__avatar" src="assets/img/prace/denik-hokeje-avatar.webp" alt="" width="240" height="240" decoding="async">
+        <div>
+          <p class="post__jmeno">Deník Hokeje</p>
+          <p class="post__typ">Instagram · carousel · 5 snímků</p>
+        </div>
+        <!-- Tabler Icons (MIT): brand-instagram -->
+        <svg class="post__ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3"/><path d="M16.5 7.5v.01"/></svg>
+      </header>
+      <div class="post__snimky post__snimky--5">
+        <figure><img src="assets/img/prace/green-1.webp" alt="Green Line, nejděsivější pětka" decoding="async"></figure>
+        <figure><img src="assets/img/prace/green-2.webp" alt="Ikonická trojice KLM Line" decoding="async"></figure>
+        <figure><img src="assets/img/prace/green-3.webp" alt="Tichonovo peklo" decoding="async"></figure>
+        <figure><img src="assets/img/prace/green-4.webp" alt="Fetisov a Kasatonov" decoding="async"></figure>
+        <figure><img src="assets/img/prace/green-5.webp" alt="Nedostižný odkaz" decoding="async"></figure>
+      </div>
+      <footer class="post__pata" aria-hidden="true">
+        <!-- Tabler Icons (MIT): heart, message-circle, send, bookmark -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.57 12 20l-7.5-7.43A5 5 0 1 1 12 6.01a5 5 0 1 1 7.5 6.57"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m3 20 1.3-3.9C1.98 12.66 2.87 8.23 6.4 5.73c3.53-2.5 8.6-2.3 11.86.47 3.26 2.78 3.7 7.25 1.02 10.46C16.6 19.87 11.5 20.84 7.4 18.9z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 21 3"/><path d="M21 3l-6.5 18a.55.55 0 0 1-1 0L10 14l-7-3.5a.55.55 0 0 1 0-1z"/></svg>
+        <svg class="post__ulozit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 7v14l-6-4-6 4V7a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4"/></svg>
+      </footer>
     </div>
   </article>
 

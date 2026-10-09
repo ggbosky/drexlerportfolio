@@ -375,28 +375,31 @@ if (lightbox && typeof lightbox.showModal === 'function') {
 }
 
 
-/* Šipky u průvodu -------------------------------------------------------
+/* Časová osa ------------------------------------------------------------
  *
- * Posunou carousel o dva snímky. Na krajích zešednou, ať je jasné, že
- * dál už nic není.
+ * Linka se plní podle toho, kam až čtenář doscrolloval, a body i roky,
+ * kolem kterých prošla, se rozsvítí.
  */
-document.querySelectorAll('.blok__hlava--sipky').forEach((hlava) => {
-  const pruvod = hlava.parentElement.querySelector('.pruvod');
-  const tlacitka = [...hlava.querySelectorAll('.pruvod__sipka')];
-  if (!pruvod) return;
-  const krok = () => {
-    const f = pruvod.querySelector('figure');
-    return f ? (f.offsetWidth + parseFloat(getComputedStyle(pruvod).columnGap || 16)) * 2 : 300;
+const osa = document.querySelector('.osa');
+if (osa) {
+  const polozky = [...osa.querySelectorAll('li')];
+  let ceka = false;
+  const obnov = () => {
+    ceka = false;
+    const mez = innerHeight * 0.62;
+    const r = osa.getBoundingClientRect();
+    const postup = Math.min(1, Math.max(0, (mez - r.top - 12) / (r.height - 24)));
+    osa.style.setProperty('--postup', postup.toFixed(4));
+    polozky.forEach((li) => {
+      li.classList.toggle('je-aktivni', li.getBoundingClientRect().top + 14 <= mez);
+    });
   };
-  const stav = () => {
-    const konec = pruvod.scrollWidth - pruvod.clientWidth - 2;
-    tlacitka[0].disabled = pruvod.scrollLeft <= 2;
-    tlacitka[1].disabled = pruvod.scrollLeft >= konec;
+  const naplanuj = () => {
+    if (ceka) return;
+    ceka = true;
+    requestAnimationFrame(obnov);
   };
-  tlacitka.forEach((b) => b.addEventListener('click', () => {
-    pruvod.scrollBy({ left: Number(b.dataset.smer) * krok(), behavior: jemnyPohyb.matches ? 'auto' : 'smooth' });
-  }));
-  pruvod.addEventListener('scroll', stav, { passive: true });
-  addEventListener('resize', stav);
-  stav();
-});
+  addEventListener('scroll', naplanuj, { passive: true });
+  addEventListener('resize', naplanuj);
+  obnov();
+}
