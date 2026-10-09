@@ -414,7 +414,11 @@
 }
 
 /* Portfolio ----------------------------------------------------------- */
-.blok { margin-top: clamp(52px, 9vh, 110px); }
+.blok {
+  margin-top: clamp(52px, 9vh, 110px);
+  /* Při skoku z menu nesmí začátek bloku zajet pod pevnou lištu. */
+  scroll-margin-top: calc(var(--nav-top) + var(--nav-h) + 12px);
+}
 
 /* Popis stojí pod nadpisem, ne vedle něj: vedle by každý začínal jinde,
    podle toho, jak dlouhý je nadpis. */

@@ -108,6 +108,10 @@ a { color: inherit; text-decoration: none; }
 .nav__links a:hover { color: var(--paper); }
 .nav__links a:hover::after { transform: scaleX(1); }
 
+/* Odkaz jen do rozbalovacího menu na mobilu; na počítači by kapsli
+   zbytečně natáhl. */
+.nav__links .nav__jen-mobil { display: none; }
+
 .nav__cta {
   padding: 12px 20px;
   border-radius: 999px;
@@ -519,12 +523,14 @@ a { color: inherit; text-decoration: none; }
 
   .nav__links a::after { display: none; }
   .nav__links a:hover { color: var(--red-400); }
+  .nav__links .nav__jen-mobil { display: block; }
 
   /* Odkazy najedou po sobě. */
   .nav--open .nav__links a { opacity: 1; transform: none; }
   .nav--open .nav__links a:nth-child(2) { transition-delay: .05s, .05s, 0s; }
   .nav--open .nav__links a:nth-child(3) { transition-delay: .1s, .1s, 0s; }
   .nav--open .nav__links a:nth-child(4) { transition-delay: .15s, .15s, 0s; }
+  .nav--open .nav__links a:nth-child(5) { transition-delay: .2s, .2s, 0s; }
 
   .nav__cta {
     padding: 20px;
