@@ -375,87 +375,82 @@ a { color: inherit; text-decoration: none; }
 
 /* Úzké obrazovky ----------------------------------------------------- */
 @media (max-width: 900px) {
-  /* Na úzkém displeji vyplní hero celou obrazovku: portrét nahoře,
-     dole přes rameno přechod do tmavě červené a na něm nadpis přes celou
-     šířku a tlačítko. */
+  /* Na úzkém displeji stejný příběh jako na počítači, jen pod sebou:
+     nahoře TVOŘÍM bílé na červené, pod ním hlava,
+     dole bílá karta s tmavým ZNAČKY a tlačítkem. Rozměry se odvíjí
+     od velikosti písma --f, aby se tvář vešla nad kartu na každém
+     telefonu. */
   .hero {
+    --f: min(calc((100vw - 2 * var(--rail)) * .40), 150px);
+    --hlava: calc(var(--nav-top) + var(--nav-h) + .74 * var(--f));
+    --karta: calc(6px + 1.14 * var(--f) + 22px + 52px + 34px);
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto auto auto;
+    grid-template-rows: auto 1fr auto auto;
     min-height: 100svh;
   }
 
-  .hero__panel { display: none; }
+  .hero__rings { display: none; }
 
-  .hero::after {
-    content: "";
-    position: absolute;
-    z-index: 2;
-    inset: auto 0 0 0;
-    height: 58%;
-    background: linear-gradient(to top,
-      var(--brick) 0%,
-      rgba(92, 10, 12, .88) 38%,
-      rgba(92, 10, 12, .4) 70%,
-      rgba(92, 10, 12, 0) 100%);
-    pointer-events: none;
+  /* Bílá karta dole; navazuje na bílou sekci pod herem. */
+  .hero__panel {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    height: var(--karta);
+    border-radius: 28px 28px 0 0;
   }
 
-  /* Portrét stojí na spodní hraně, ať rameno neskončí řezem v obraze. */
+  /* Hlava sedí pod nadpisem, ramena zajíždějí pod kartu. Výška je
+     taková, aby brada skončila nad kartou. */
   .hero__portrait {
     position: absolute;
-    top: auto;
+    top: var(--hlava);
     right: -3%;
     left: auto;
-    bottom: 0;
+    bottom: auto;
     width: auto;
-    height: min(76svh, 172vw);
+    height: min(calc((100svh - var(--hlava) - var(--karta)) / .55), 150vw);
     transform: none;
   }
 
   .hero__left {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
     z-index: 3;
-    padding: 0 var(--rail);
+    padding: calc(var(--nav-top) + var(--nav-h) - 8px) var(--rail) 0;
   }
 
-  /* Velikost tak, aby TVOŘÍM vyplnilo skoro celou šířku. */
   .hero__title,
-  .hero__druhy { font-size: min(calc((100vw - 2 * var(--rail)) * .34), 150px); }
+  .hero__druhy { font-size: var(--f); }
 
   .hero__title {
     -webkit-mask-image: none;
     mask-image: none;
   }
 
-  /* Druhé slovo je druhý řádek nadpisu. */
   .hero__druhy {
     position: relative;
     grid-row: 3;
     top: auto;
     right: auto;
-    z-index: 3;
-    margin: .04em var(--rail) 0;
-    color: var(--paper);
+    z-index: 4;
+    margin: 0 var(--rail);
     transform-origin: left center;
     -webkit-mask-image: none;
     mask-image: none;
   }
 
-  /* Na červené je tlačítko bílé a stojí pod nadpisem. */
   .hero .btn--hero {
     position: relative;
-    z-index: 3;
+    z-index: 4;
     grid-row: 4;
     right: auto;
     bottom: auto;
     justify-self: start;
-    margin: 22px var(--rail) clamp(28px, 6svh, 52px);
-    background: var(--paper);
-    color: var(--red-700);
+    margin: 22px var(--rail) 34px;
   }
-
-  .hero .btn--hero:hover { background: var(--ink); color: var(--paper); }
 
   /* Menu: pilulka vpravo nahoře, po otevření tmavá plocha přes celou
      obrazovku s velkými odkazy. */
