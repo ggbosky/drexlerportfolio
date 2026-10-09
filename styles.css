@@ -375,13 +375,15 @@ a { color: inherit; text-decoration: none; }
 
 /* Úzké obrazovky ----------------------------------------------------- */
 @media (max-width: 900px) {
-  /* Na úzkém displeji hraje hlavní roli fotka: stojí na spodní hraně
-     a obličej má horní polovinu obrazovky pro sebe. Nadpis a tlačítko
-     sedí dole přes tmavou košili, kde jsou dobře čitelné. */
+  /* Na úzkém displeji je nadpis nahoře na středu (TVOŘÍM plné,
+     ZNAČKY obrysem), pod ním fotka stojící na spodní hraně a dole na
+     středu tlačítko. Fotka je vysoká tak, aby začínala až pod nadpisem;
+     obrys přes vlasy by nebyl čitelný. */
   .hero {
-    --f: min(calc((100vw - 2 * var(--rail)) * .25), 120px);
+    --f: min(calc((100vw - 2 * var(--rail)) * .21), 110px);
+    --nahore: calc(var(--nav-top) + var(--nav-h) + 2.32 * var(--f));
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto auto auto;
+    grid-template-rows: auto auto 1fr auto;
     min-height: 100svh;
   }
 
@@ -393,73 +395,73 @@ a { color: inherit; text-decoration: none; }
     position: absolute;
     z-index: 2;
     inset: auto 0 0 0;
-    height: 46%;
-    background: linear-gradient(to top,
-      rgba(40, 4, 6, .86) 0%,
-      rgba(40, 4, 6, .55) 45%,
-      rgba(40, 4, 6, 0) 100%);
+    height: 34%;
+    background: linear-gradient(to top, rgba(40, 4, 6, .8), rgba(40, 4, 6, 0));
     pointer-events: none;
   }
 
   .hero__portrait {
     position: absolute;
     top: auto;
-    right: -6%;
-    left: auto;
+    left: 50%;
+    right: auto;
     bottom: 0;
     width: auto;
-    height: min(calc(100svh - var(--nav-top) - var(--nav-h) + 10px), 172vw);
-    transform: none;
+    height: min(calc(100svh - var(--nahore) - 4px), 172vw);
+    /* Hlava leží v pravé části snímku (zhruba 20–95 % šířky), proto
+       posun o víc než polovinu: na střed obrazovky se dostane obličej. */
+    transform: translateX(-57%);
   }
 
   .hero__left {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
     z-index: 3;
-    padding: 0 var(--rail);
+    align-items: center;
+    padding: calc(var(--nav-top) + var(--nav-h) - 6px) var(--rail) 0;
   }
 
   .hero__title,
-  .hero__druhy { font-size: var(--f); }
+  .hero__druhy {
+    font-size: var(--f);
+    transform-origin: center;
+  }
 
   .hero__title {
     -webkit-mask-image: none;
     mask-image: none;
   }
 
-  /* Druhé slovo jen obrysem: dva řádky se tak čtou jako jeden nápis,
-     ale nepůsobí jako blok. */
+  /* Obrys přesahuje tvar písmen; bez vůle po stranách by ho
+     overflow řádku uřízl (poslední Y). */
+  .hero__title .line,
+  .hero__druhy .line { padding-inline: .06em; }
+
   .hero__druhy {
     position: relative;
-    grid-row: 3;
+    grid-row: 2;
     top: auto;
     right: auto;
     z-index: 3;
-    margin: .02em var(--rail) 0;
+    justify-self: center;
+    margin: .02em 0 0;
     color: transparent;
     -webkit-text-stroke: 1.6px var(--paper);
-    transform-origin: left center;
     -webkit-mask-image: none;
     mask-image: none;
   }
 
-  /* Tlačítko přes celou šířku, popisek vlevo a čip vpravo. */
   .hero .btn--hero {
     position: relative;
     z-index: 4;
     grid-row: 4;
     right: auto;
     bottom: auto;
-    justify-self: stretch;
-    justify-content: space-between;
-    margin: 20px var(--rail) calc(24px + env(safe-area-inset-bottom));
-    padding: 8px 8px 8px 24px;
+    justify-self: center;
+    margin: 0 var(--rail) calc(26px + env(safe-area-inset-bottom));
     background: var(--paper);
     color: var(--ink);
-    font-size: 13.5px;
   }
-
-  .hero .btn--hero:hover { background: var(--red-600); color: var(--paper); }
 
   /* Menu: pilulka vpravo nahoře, po otevření tmavá plocha přes celou
      obrazovku s velkými odkazy. */
