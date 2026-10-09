@@ -71,7 +71,7 @@
 .lightbox__sipka svg { width: 22px; height: 22px; }
 
 .lightbox__zavrit:hover,
-.lightbox__sipka:hover { background: var(--orange-600); transform: scale(1.06); }
+.lightbox__sipka:hover { background: var(--red-600); transform: scale(1.06); }
 
 .lightbox__zavrit { top: 20px; right: 20px; }
 .lightbox__sipka { top: 50%; margin-top: -26px; }

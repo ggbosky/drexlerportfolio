@@ -2,7 +2,7 @@
  *
  * Nadpis škáluje se šířkou okna, portrét s jeho výškou, takže na širokém
  * monitoru se oba rozejdou a mezi posledním písmenem a hlavou zůstane
- * oranžová díra. Proto se velikost nadpisu dopočítá z toho, kde postava
+ * červená díra. Proto se velikost nadpisu dopočítá z toho, kde postava
  * v jeho výšce opravdu začíná.
  *
  * SILUETA je levý okraj neprůhledné části portrétu po jednom procentu
@@ -140,6 +140,21 @@ if (nav && hero && 'IntersectionObserver' in window) {
     ([entry]) => nav.classList.toggle('nav--past', !entry.isIntersecting),
     { rootMargin: '-60px 0px 0px 0px' }
   ).observe(hero);
+}
+
+/* Mobilní menu: burger ho rozbalí, kliknutí na odkaz, mimo menu nebo
+   Escape ho zase zavře. */
+const burger = document.querySelector('.nav__burger');
+if (nav && burger) {
+  const prepni = (otevrit) => {
+    nav.classList.toggle('nav--open', otevrit);
+    burger.setAttribute('aria-expanded', String(otevrit));
+    burger.setAttribute('aria-label', otevrit ? 'Zavřít menu' : 'Otevřít menu');
+  };
+  burger.addEventListener('click', () => prepni(!nav.classList.contains('nav--open')));
+  nav.querySelectorAll('.nav__menu a').forEach((a) => a.addEventListener('click', () => prepni(false)));
+  document.addEventListener('click', (e) => { if (!nav.contains(e.target)) prepni(false); });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') prepni(false); });
 }
 
 

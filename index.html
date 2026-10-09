@@ -20,13 +20,16 @@
     <span class="nav__mark" aria-hidden="true"></span>
     Drexler
   </a>
-  <nav class="nav__links">
-    <a href="#prace">Portfolio</a>
-    <a href="#o-mne">O mně</a>
-    <a href="#sluzby">Služby</a>
-    <a href="#kontakt">Kontakt</a>
-  </nav>
-  <button class="nav__burger" type="button" aria-label="Menu">
+  <div class="nav__menu" id="menu">
+    <nav class="nav__links" aria-label="Hlavní navigace">
+      <a href="#prace">Portfolio</a>
+      <a href="#o-mne">O mně</a>
+      <a href="#sluzby">Služby</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="nav__cta" href="#kontakt">Napsat mi</a>
+  </div>
+  <button class="nav__burger" type="button" aria-label="Otevřít menu" aria-expanded="false" aria-controls="menu">
     <span></span><span></span>
   </button>
 </header>
@@ -49,13 +52,19 @@
     </p>
     <a class="btn" href="#prace">
       <span>Moje práce</span>
-      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12L12 4M12 4H5.5M12 4v6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <!-- Tabler Icons (MIT): layout-grid -->
+      <span class="btn__ikona" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></span>
     </a>
   </div>
 
   <aside class="hero__right">
-    <p class="avail">K dispozici pro</p>
-    <p class="avail__what">Freelance<br>projekty</p>
+    <ol class="hero__obory">
+      <li><span>01</span>Design</li>
+      <li><span>02</span>Video</li>
+      <li><span>03</span>Web</li>
+      <li><span>04</span>AI</li>
+    </ol>
+    <p class="dostupnost"><span class="dostupnost__tecka" aria-hidden="true"></span>Beru nové freelance projekty</p>
   </aside>
 </section>
 
@@ -237,7 +246,7 @@
 </section>
 
 <!-- Závěrečná výzva ------------------------------------------------- -->
-<section class="sekce sekce--oranzova" id="sluzby">
+<section class="sekce sekce--cervena" id="sluzby">
   <div class="vyzva">
     <div class="vyzva__text">
       <h2 class="sekce__nadpis">Jeden člověk.<br>Víc disciplín.</h2>
@@ -245,7 +254,7 @@
         Odbavím celou zakázku od značky po hotový web. Bez předávání
         mezi třemi dodavateli.
       </p>
-      <a class="btn btn--svetly" href="#kontakt"><span>Napsat mi</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12L12 4M12 4H5.5M12 4v6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn btn--svetly" href="#kontakt"><span>Napsat mi</span><span class="btn__ikona" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m3 7 9 6 9-6"/></svg></span></a>
     </div>
 
     <div class="schema">
@@ -323,7 +332,7 @@
       <label>Jméno<input type="text" name="jmeno" placeholder="Jak vám mám říkat?" required></label>
       <label>E-mail<input type="email" name="email" placeholder="kam se vám mám ozvat" required></label>
       <label class="siroke">Co potřebujete?<textarea name="zprava" rows="5" placeholder="Pár vět stačí." required></textarea></label>
-      <button type="submit" class="btn btn--tmavy"><span data-klid="Odeslat">Odeslat</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12L12 4M12 4H5.5M12 4v6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="submit" class="btn btn--tmavy"><span data-klid="Odeslat">Odeslat</span><span class="btn__ikona" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 21 3"/><path d="M21 3l-6.5 18a.55.55 0 0 1-1 0L10 14l-7-3.5a.55.55 0 0 1 0-1z"/></svg></span></button>
   
       <p class="hlaska" role="status" aria-live="polite"></p>
     </form>
