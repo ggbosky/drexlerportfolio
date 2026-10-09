@@ -375,16 +375,18 @@ a { color: inherit; text-decoration: none; }
 
 /* Úzké obrazovky ----------------------------------------------------- */
 @media (max-width: 900px) {
-  /* Na úzkém displeji: nadpis nahoře na středu pod menu (TVOŘÍM plné,
-     ZNAČKY obrysem), pod ním fotka přes celou šířku displeje. Hero je
-     tak vysoké, jak je potřeba, aby se fotka nemusela zmenšovat.
-     Čepice zajede pod nadpis jen o kousek, brýle (asi 14 % výšky
-     snímku) zůstanou pod ním. */
+  /* Na úzkém displeji: hero přesně na jednu obrazovku. Nahoře na
+     středu pod menu nadpis (TVOŘÍM plné, ZNAČKY obrysem), za ním jako na
+     počítači hlava. Fotka je přes celou šířku displeje, čepicí zakryje
+     spodek slova ZNAČKY a hrudník pod spodní hranou se ořízne. Tlačítko je
+     dole na středu, vidět hned bez scrollování. */
   .hero {
-    --f: min(calc((100vw - 2 * var(--rail)) * .30), 150px);
+    --f: min(calc((100vw - 2 * var(--rail)) * .27), 150px);
+    --nahore: calc(var(--nav-top) + var(--nav-h) + 6px + 1.9 * var(--f));
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto 1fr;
     min-height: 0;
+    height: 100svh;
   }
 
   .hero__panel,
@@ -401,25 +403,22 @@ a { color: inherit; text-decoration: none; }
   }
 
   .hero__portrait {
-    position: relative;
-    grid-row: 3;
-    grid-column: 1;
-    top: auto;
-    left: auto;
+    position: absolute;
+    z-index: 2;
+    top: var(--nahore);
+    left: 0;
     right: auto;
     bottom: auto;
     width: 100%;
     height: auto;
     max-width: none;
-    /* Snímek je 695 × 1130: desetina jeho výšky zajede pod nadpis. */
-    margin-top: calc(-.1 * 100vw * 1130 / 695);
     transform: none;
   }
 
   .hero__left {
     grid-column: 1;
     grid-row: 1;
-    z-index: 3;
+    z-index: 1;
     align-items: center;
     padding: calc(var(--nav-top) + var(--nav-h) + 6px) var(--rail) 0;
   }
@@ -446,7 +445,7 @@ a { color: inherit; text-decoration: none; }
     grid-column: 1;
     top: auto;
     right: auto;
-    z-index: 3;
+    z-index: 1;
     justify-self: center;
     margin: .02em 0 0;
     color: transparent;
@@ -457,15 +456,13 @@ a { color: inherit; text-decoration: none; }
 
   /* Tlačítko leží dole přes košili, na středu. */
   .hero .btn--hero {
-    position: relative;
+    position: absolute;
     z-index: 4;
-    grid-row: 3;
-    grid-column: 1;
-    align-self: end;
+    left: 50%;
     right: auto;
-    bottom: auto;
-    justify-self: center;
-    margin: 0 var(--rail) 28px;
+    bottom: calc(26px + env(safe-area-inset-bottom));
+    translate: -50% 0;
+    margin: 0;
     background: var(--paper);
     color: var(--ink);
   }
