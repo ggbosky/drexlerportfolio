@@ -244,8 +244,8 @@ if (!jemnyPohyb.matches && portret && hero) {
  * návštěvník neopustí stránku. Tlačítko mezitím prochází stavy
  * Odeslat → Odesílám → Odesláno.
  *
- * Bez vyplněného access_key se odesílat nedá; v tom případě to řekneme
- * rovnou místo abychom předstírali, že zpráva odešla.
+ * Zprávu doručuje FormSubmit na adresu v action formuláře. Jeho AJAX
+ * rozhraní vrací success jako řetězec "true" / "false".
  */
 const formular = document.querySelector('.formular');
 const hlaska = document.querySelector('.hlaska');
@@ -266,10 +266,6 @@ if (formular && hlaska) {
     if (!formular.reportValidity()) return;
 
     const data = new FormData(formular);
-    if (!data.get('access_key')) {
-      stav('Formulář zatím není napojený. Napište mi prosím na drexleroutreach@gmail.com.', 'chyba');
-      return;
-    }
 
     tlacitko.disabled = true;
     tlacitko.classList.add('btn--pracuje');
@@ -284,7 +280,7 @@ if (formular && hlaska) {
       });
       const vysledek = await odpoved.json().catch(() => ({}));
 
-      if (odpoved.ok && vysledek.success !== false) {
+      if (odpoved.ok && String(vysledek.success) !== 'false') {
         tlacitko.classList.remove('btn--pracuje');
         tlacitko.classList.add('btn--hotovo');
         popisek.textContent = 'Odesláno';

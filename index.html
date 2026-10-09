@@ -16,10 +16,6 @@
 <body>
 
 <header class="nav">
-  <a class="nav__brand" href="#">
-    <span class="nav__mark" aria-hidden="true"></span>
-    Drexler
-  </a>
   <div class="nav__menu" id="menu">
     <nav class="nav__links" aria-label="Hlavní navigace">
       <a href="#prace">Portfolio</a>
@@ -168,13 +164,18 @@
     </div>
     <div class="post">
       <header class="post__hlava">
-        <img class="post__avatar" src="assets/img/prace/denik-hokeje-avatar.webp" alt="" width="240" height="240" decoding="async">
-        <div>
-          <p class="post__jmeno">Deník Hokeje</p>
-          <p class="post__typ">Instagram · carousel · 10 snímků</p>
-        </div>
-        <!-- Tabler Icons (MIT): brand-instagram -->
-        <svg class="post__ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3"/><path d="M16.5 7.5v.01"/></svg>
+        <a class="post__ucet" href="https://www.instagram.com/denik_hokeje/" target="_blank" rel="noopener">
+          <img class="post__avatar" src="assets/img/prace/denik-hokeje-avatar.webp" alt="" width="240" height="240" decoding="async">
+          <span>
+            <span class="post__jmeno">denik_hokeje</span>
+            <span class="post__typ">Instagram · carousel · 10 snímků</span>
+          </span>
+        </a>
+        <a class="post__ig" href="https://www.instagram.com/denik_hokeje/" target="_blank" rel="noopener">
+          <!-- Tabler Icons (MIT): brand-instagram -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3"/><path d="M16.5 7.5v.01"/></svg>
+          <span>Zobrazit profil</span>
+        </a>
       </header>
       <div class="post__snimky post__snimky--10">
         <figure><img src="assets/img/prace/cas-00-cover.webp" alt="Jak šel čas, úvodní slide" decoding="async"></figure>
@@ -207,13 +208,18 @@
     </div>
     <div class="post">
       <header class="post__hlava">
-        <img class="post__avatar" src="assets/img/prace/denik-hokeje-avatar.webp" alt="" width="240" height="240" decoding="async">
-        <div>
-          <p class="post__jmeno">Deník Hokeje</p>
-          <p class="post__typ">Instagram · carousel · 5 snímků</p>
-        </div>
-        <!-- Tabler Icons (MIT): brand-instagram -->
-        <svg class="post__ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3"/><path d="M16.5 7.5v.01"/></svg>
+        <a class="post__ucet" href="https://www.instagram.com/denik_hokeje/" target="_blank" rel="noopener">
+          <img class="post__avatar" src="assets/img/prace/denik-hokeje-avatar.webp" alt="" width="240" height="240" decoding="async">
+          <span>
+            <span class="post__jmeno">denik_hokeje</span>
+            <span class="post__typ">Instagram · carousel · 5 snímků</span>
+          </span>
+        </a>
+        <a class="post__ig" href="https://www.instagram.com/denik_hokeje/" target="_blank" rel="noopener">
+          <!-- Tabler Icons (MIT): brand-instagram -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3"/><path d="M16.5 7.5v.01"/></svg>
+          <span>Zobrazit profil</span>
+        </a>
       </header>
       <div class="post__snimky post__snimky--5">
         <figure><img src="assets/img/prace/green-1.webp" alt="Green Line, nejděsivější pětka" decoding="async"></figure>
@@ -345,14 +351,16 @@
   </header>
 
   <div class="kontakt">
-    <form class="formular" action="https://api.web3forms.com/submit" method="post" novalidate>
-      <input type="hidden" name="access_key" value="">
-      <input type="hidden" name="subject" value="Nová zpráva z webu drexler.digital">
-      <input type="checkbox" name="botcheck" class="pastnabot" tabindex="-1" autocomplete="off">
+    <!-- Zprávy chodí přes FormSubmit na drexleroutreach@gmail.com. Pole
+         „email“ se v doručené zprávě nastaví jako adresa pro odpověď. -->
+    <form class="formular" action="https://formsubmit.co/ajax/drexleroutreach@gmail.com" method="post" novalidate>
+      <input type="hidden" name="_subject" value="Nová zpráva z webu drexler.digital">
+      <input type="hidden" name="_template" value="table">
+      <input type="text" name="_honey" class="pastnabot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-      <label>Jméno<input type="text" name="jmeno" placeholder="Jak vám mám říkat?" required></label>
+      <label>Jméno<input type="text" name="Jméno" placeholder="Jak vám mám říkat?" required></label>
       <label>E-mail<input type="email" name="email" placeholder="kam se vám mám ozvat" required></label>
-      <label class="siroke">Co potřebujete?<textarea name="zprava" rows="5" placeholder="Pár vět stačí." required></textarea></label>
+      <label class="siroke">Co potřebujete?<textarea name="Zpráva" rows="5" placeholder="Pár vět stačí." required></textarea></label>
       <button type="submit" class="btn btn--tmavy"><span data-klid="Odeslat">Odeslat</span><span class="btn__ikona" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 21 3"/><path d="M21 3l-6.5 18a.55.55 0 0 1-1 0L10 14l-7-3.5a.55.55 0 0 1 0-1z"/></svg></span></button>
   
       <p class="hlaska" role="status" aria-live="polite"></p>
