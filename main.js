@@ -194,14 +194,17 @@ if (nav && hero && 'IntersectionObserver' in window) {
   ).observe(hero);
 }
 
-/* Mobilní menu: burger ho rozbalí, kliknutí na odkaz, mimo menu nebo
+/* Mobilní menu: tlačítko ho rozbalí přes celou obrazovku, kliknutí na odkaz, mimo menu nebo
    Escape ho zase zavře. */
 const burger = document.querySelector('.nav__burger');
 if (nav && burger) {
+  const popisek = burger.querySelector('.nav__burger-text');
   const prepni = (otevrit) => {
     nav.classList.toggle('nav--open', otevrit);
+    // Otevřené menu kryje celou obrazovku, stránka pod ním nemá jezdit.
+    document.documentElement.classList.toggle('menu-otevrene', otevrit);
     burger.setAttribute('aria-expanded', String(otevrit));
-    burger.setAttribute('aria-label', otevrit ? 'Zavřít menu' : 'Otevřít menu');
+    if (popisek) popisek.textContent = otevrit ? 'Zavřít' : 'Menu';
   };
   burger.addEventListener('click', () => prepni(!nav.classList.contains('nav--open')));
   nav.querySelectorAll('.nav__menu a').forEach((a) => a.addEventListener('click', () => prepni(false)));
