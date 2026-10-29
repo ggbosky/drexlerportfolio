@@ -1,0 +1,677 @@
+/* Stránka Karla Drexlera st. Tokeny, navigace, tlačítka, sekce, osa,
+   kontakt a patička přicházejí ze ../styles.css a ../sekce.css; tady je
+   jen to, co je pro tuhle stránku jiné. */
+
+/* Hero --------------------------------------------------------------- */
+/* Stejná deska jako na drexler.digital: červená vlevo, bílá karta
+   vpravo. Místo vyříznuté postavy stojí na předělu razítko; slova se
+   k němu sbíhají z obou stran. */
+.hs {
+  --predel: 50.3%;
+  --razitko: clamp(150px, 15vw, 250px);
+  /* Slovo musí doběhnout k razítku: polovina šířky minus okraj a
+     polovina razítka. Anton zúžený na .72 má na písmeno asi .41 em. */
+  --slovo: clamp(76px, 15.2vw, 290px);
+}
+
+.hs__slova {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  pointer-events: none;
+  font-family: var(--hero-face);
+  font-weight: 400;
+  font-size: var(--slovo);
+  line-height: .84;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.hs__slovo {
+  position: absolute;
+  top: 50%;
+  translate: 0 -58%;
+  width: fit-content;
+  transform: scaleX(.72);
+}
+
+.hs__slovo--l {
+  left: var(--rail-hero);
+  transform-origin: left center;
+  color: var(--paper);
+}
+
+.hs__slovo--r {
+  right: calc(var(--rail) + var(--nav-top) + clamp(6px, 1vw, 20px));
+  transform-origin: right center;
+  color: var(--ink);
+}
+
+.hs__slovo .line {
+  display: block;
+  overflow: hidden;
+  /* Prostor pro háček a čárku nad verzálkou. */
+  padding-top: .30em;
+}
+
+.hs__slovo .line > span {
+  display: block;
+  transform: translateY(105%);
+  animation: rise 1s cubic-bezier(.16,1,.3,1) .15s forwards;
+}
+
+.hs__slovo--r .line > span { animation-delay: .27s; }
+
+/* Razítko leží přesně na předělu, napůl v červené a napůl na bílé. */
+.razitko {
+  position: absolute;
+  z-index: 3;
+  left: var(--predel);
+  top: 50%;
+  width: var(--razitko);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 0 0 clamp(5px, .5vw, 8px) var(--paper), 0 24px 60px rgba(60, 4, 6, .35);
+  opacity: 0;
+  scale: .6;
+  animation: razitko .9s cubic-bezier(.16, 1, .3, 1) .55s forwards;
+}
+
+@keyframes razitko { to { opacity: 1; scale: 1; } }
+
+.razitko__kruh {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: tocise 26s linear infinite;
+}
+
+.razitko__kruh text {
+  fill: currentColor;
+  font-family: var(--text);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+}
+
+.razitko__stred {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  font-family: var(--hero-face);
+  font-size: calc(var(--razitko) * .25);
+  line-height: .9;
+  color: var(--red-400);
+}
+
+.razitko__stred small {
+  font-family: var(--text);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .7);
+  margin-bottom: 4px;
+}
+
+/* Vlevo dole na červené: kdo a odkud. Protiváha tlačítka vpravo. */
+.hs__meta {
+  position: absolute;
+  z-index: 3;
+  left: var(--rail-hero);
+  bottom: calc(var(--nav-top) + clamp(28px, 5vh, 56px));
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  color: var(--paper);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.hs__meta span + span {
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, .35);
+  color: rgba(255, 255, 255, .72);
+}
+
+/* Fotka: dokud v assets/img/ není, zůstává schovaná a hero stojí na
+   razítku. Rámeček místo výřezu, ať funguje s jakýmkoli portrétem. */
+.hs__foto { display: none; }
+
+.hero--foto .hs__foto {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  left: var(--predel);
+  bottom: 0;
+  height: 82%;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  translate: -50% 0;
+  overflow: hidden;
+  border-radius: clamp(18px, 2.6vw, 38px) clamp(18px, 2.6vw, 38px) 0 0;
+  box-shadow: 0 30px 80px rgba(60, 4, 6, .4);
+}
+
+.hero--foto .hs__foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+  filter: contrast(1.05);
+}
+
+/* S fotkou se razítko zmenší a sedne na její levý dolní roh. */
+.hero--foto .razitko {
+  --razitko: clamp(120px, 11vw, 190px);
+  top: auto;
+  bottom: clamp(40px, 9vh, 110px);
+  left: calc(var(--predel) - min(82svh, 82%) * .4);
+  translate: -50% 0;
+}
+
+/* Běžící pás ----------------------------------------------------------- */
+.pas {
+  overflow: hidden;
+  padding-block: clamp(14px, 2vh, 22px);
+  background: var(--ink);
+  color: var(--paper);
+  border-block: 1px solid rgba(255, 255, 255, .08);
+}
+
+.pas__jizda {
+  display: flex;
+  width: max-content;
+  animation: jizda 38s linear infinite;
+}
+
+.pas__jizda span {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--hero-face);
+  font-size: clamp(22px, 2.6vw, 38px);
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pas__jizda span::after {
+  content: "";
+  width: .38em;
+  height: .38em;
+  margin-inline: .8em;
+  background: var(--red-500);
+  transform: rotate(45deg);
+}
+
+@keyframes jizda { to { transform: translateX(-50%); } }
+
+/* O mně: úvod a profil jako ve životopisu --------------------------- */
+.profil {
+  display: grid;
+  gap: clamp(32px, 5vw, 90px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, .9fr);
+  align-items: end;
+}
+
+.karta {
+  margin: 0;
+  border-top: 3px solid var(--ink);
+}
+
+.karta > div {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 16px;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd6cd;
+}
+
+.karta dt {
+  padding-top: 2px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--red-600);
+}
+
+.karta dd {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+/* Čísla: velká, hrubá, na tlusté lince. */
+.cisla {
+  margin: clamp(56px, 9vh, 110px) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 28px);
+}
+
+.cisla li {
+  display: grid;
+  gap: 10px;
+  padding-top: clamp(14px, 2vh, 22px);
+  border-top: 3px solid var(--ink);
+}
+
+.cisla strong {
+  display: flex;
+  align-items: baseline;
+  gap: .12em;
+  font-family: var(--hero-face);
+  font-weight: 400;
+  font-size: clamp(56px, 7.4vw, 120px);
+  line-height: .9;
+  letter-spacing: -.01em;
+}
+
+.cisla small {
+  font-size: .32em;
+  text-transform: uppercase;
+  color: var(--red-600);
+}
+
+.cisla li:first-child strong { color: var(--red-600); }
+
+.cisla span {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Řemesla ------------------------------------------------------------ */
+/* Dlaždice bez fotek: číslo obrysem, nadpis, popis. Pod kurzorem se
+   rozsvítí do červené jako zbytek stránky. */
+.remesla {
+  margin: clamp(32px, 5vh, 56px) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(10px, 1.2vw, 14px);
+}
+
+.remesla li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(20px, 2vw, 28px);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .03);
+  overflow: hidden;
+  isolation: isolate;
+  transition: border-color .4s ease, translate .4s cubic-bezier(.2, .8, .2, 1);
+}
+
+.remesla li::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(138deg, #5c0a0c 0%, #8f1016 42%, #b8161c 68%, #dc2a26 100%);
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+
+.remesla li:hover { border-color: transparent; translate: 0 -4px; }
+.remesla li:hover::before { opacity: 1; }
+
+.remesla__cislo {
+  font-family: var(--hero-face);
+  font-size: clamp(54px, 5.4vw, 84px);
+  line-height: .9;
+  color: transparent;
+  -webkit-text-stroke: 1.4px var(--red-400);
+  transition: -webkit-text-stroke-color .4s ease;
+}
+
+.remesla li:hover .remesla__cislo { -webkit-text-stroke-color: rgba(255, 255, 255, .85); }
+
+.remesla h3 {
+  margin: clamp(28px, 4vh, 44px) 0 10px;
+  font-family: var(--hero-face);
+  font-weight: 400;
+  font-size: clamp(24px, 2.3vw, 34px);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.remesla p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .68);
+  transition: color .4s ease;
+}
+
+.remesla li:hover p { color: rgba(255, 255, 255, .92); }
+
+/* Postup -------------------------------------------------------------- */
+.postup {
+  margin: clamp(32px, 5vh, 56px) 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: krok;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 22px);
+}
+
+.postup li {
+  counter-increment: krok;
+  position: relative;
+  padding-top: 22px;
+  border-top: 3px solid var(--ink);
+}
+
+/* Čtvereček na lince: krok, kterým se prochází. */
+.postup li::after {
+  content: "";
+  position: absolute;
+  top: -8.5px;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  background: var(--red-600);
+  transform: rotate(45deg);
+}
+
+.postup li::before {
+  content: counter(krok, decimal-leading-zero);
+  display: block;
+  margin-bottom: 14px;
+  font-family: var(--hero-face);
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1;
+  color: var(--red-600);
+}
+
+.postup h3 {
+  margin: 0 0 8px;
+  font-family: var(--hero-face);
+  font-weight: 400;
+  font-size: clamp(20px, 1.7vw, 25px);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.postup p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* Plošina -------------------------------------------------------------- */
+.plosina {
+  display: grid;
+  gap: clamp(32px, 5vw, 90px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, .95fr);
+  align-items: center;
+}
+
+.plosina .btn--tmavy { margin-top: clamp(24px, 3.6vh, 40px); }
+
+/* Technický list jako štítek na stroji: tmavý, hrubé číslo nahoře. */
+.list {
+  padding: clamp(22px, 2.6vw, 36px);
+  border-radius: 20px;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 30px 70px -30px rgba(92, 10, 12, .55);
+}
+
+.list__hlava {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 clamp(16px, 2.4vh, 24px);
+  padding-bottom: clamp(14px, 2vh, 20px);
+  border-bottom: 3px solid var(--red-500);
+}
+
+.list__hlava span:first-child {
+  font-family: var(--hero-face);
+  font-size: clamp(56px, 6vw, 96px);
+  line-height: .85;
+}
+
+.list__hlava span:last-child {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .6);
+  text-align: right;
+}
+
+.list dl { margin: 0; }
+
+.list dl > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, .16);
+}
+
+.list dl > div:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.list dt {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, .66);
+}
+
+.list dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.list .list__hlavni dd {
+  font-family: var(--hero-face);
+  font-weight: 400;
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1;
+  color: var(--red-400);
+}
+
+/* Výzva: telefon ------------------------------------------------------- */
+.telefon {
+  position: relative;
+  display: grid;
+  justify-self: end;
+  width: min(100%, 520px);
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 24px;
+  background: rgba(40, 4, 6, .22);
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease;
+}
+
+.telefon__popis {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .72);
+  transition: color .35s ease;
+}
+
+.telefon__cislo {
+  margin-top: 10px;
+  font-family: var(--hero-face);
+  font-size: clamp(76px, 10vw, 168px);
+  line-height: .9;
+  letter-spacing: -.01em;
+}
+
+.telefon__predvolba {
+  position: absolute;
+  top: clamp(24px, 3vw, 40px);
+  right: clamp(24px, 3vw, 40px);
+  font-family: var(--hero-face);
+  font-size: clamp(22px, 2.2vw, 32px);
+  color: rgba(255, 255, 255, .5);
+  transition: color .35s ease;
+}
+
+.telefon:hover {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--red-700);
+}
+
+.telefon:hover .telefon__popis,
+.telefon:hover .telefon__predvolba { color: var(--ink-soft); }
+
+/* Drobnosti ------------------------------------------------------------ */
+#postup::before { top: -30%; left: -20%; }
+#plosina::before { bottom: -30%; right: -18%; }
+
+.paticka__copy a {
+  border-bottom: 1px solid rgba(255, 255, 255, .3);
+  transition: border-color .3s;
+}
+
+.paticka__copy a:hover { border-color: var(--red-400); }
+
+/* Úzké obrazovky ----------------------------------------------------- */
+@media (max-width: 1040px) {
+  .remesla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .postup { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: clamp(32px, 5vh, 48px); }
+  .cisla { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(32px, 5vh, 48px); }
+  .profil,
+  .plosina { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 1000px) {
+  .telefon { justify-self: start; }
+}
+
+@media (max-width: 900px) {
+  /* Hero na jednu obrazovku: nahoře slova pod sebou (STAVÍM plné,
+     STŘECHY obrysem), uprostřed razítko, dole kdo a tlačítko. */
+  .hs {
+    --slovo: min(calc((100vw - 2 * var(--rail)) * .29), 150px);
+    --razitko: min(56vw, 34svh, 260px);
+  }
+
+  .hs__slova {
+    position: relative;
+    inset: auto;
+    grid-row: 1;
+    grid-column: 1;
+    display: grid;
+    justify-items: center;
+    padding: calc(var(--nav-top) + var(--nav-h) + 6px) var(--rail) 0;
+  }
+
+  .hs__slovo {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    translate: none;
+    transform-origin: center top;
+  }
+
+  .hs__slovo .line { padding-inline: .06em; }
+
+  .hs__slovo--l { color: var(--paper); }
+
+  .hs__slovo--r {
+    margin-top: .02em;
+    color: transparent;
+    -webkit-text-stroke: 1.6px var(--paper);
+  }
+
+  /* Razítko sedí na středu volného místa mezi slovy a tlačítkem. */
+  .razitko {
+    position: relative;
+    grid-row: 3;
+    grid-column: 1;
+    justify-self: center;
+    align-self: center;
+    left: auto;
+    top: auto;
+    margin-bottom: calc(110px + env(safe-area-inset-bottom));
+    translate: none;
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, .92), 0 24px 60px rgba(40, 4, 6, .45);
+  }
+
+  .hs__meta {
+    left: 50%;
+    bottom: calc(26px + 62px + env(safe-area-inset-bottom));
+    translate: -50% 0;
+    width: max-content;
+    display: flex;
+    gap: 10px;
+    font-size: 11px;
+  }
+
+  .hs__meta span + span {
+    padding: 0 0 0 10px;
+    border-top: 0;
+    border-left: 1px solid rgba(255, 255, 255, .35);
+  }
+
+  /* S fotkou: portrét pod slovy přes celou šířku, razítko v rohu. */
+  .hero--foto .hs__foto {
+    left: 50%;
+    height: auto;
+    width: min(86vw, 52svh);
+    bottom: 0;
+  }
+
+  /* Razítko se z mřížky vyvlékne a sedne na levý horní roh fotky. */
+  .hero--foto .razitko {
+    --razitko: min(28vw, 120px);
+    position: absolute;
+    margin: 0;
+    translate: none;
+    left: calc(50% - min(86vw, 52svh) / 2 - 8px);
+    bottom: calc(min(86vw, 52svh) * 1.25 - var(--razitko) * .55);
+  }
+}
+
+@media (max-width: 720px) {
+  .remesla { grid-template-columns: 1fr; }
+  .postup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .karta > div { grid-template-columns: 1fr; gap: 4px; }
+}
+
+@media (max-width: 340px) {
+  .cisla { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hs__slovo .line > span { transform: none; animation: none; }
+  .razitko { opacity: 1; scale: 1; animation: none; }
+  .razitko__kruh, .pas__jizda { animation: none; }
+  .remesla li, .remesla li::before, .telefon { transition: none; }
+  .remesla li:hover { translate: none; }
+}
