@@ -1,5 +1,5 @@
 /* Stránka Karla Drexlera st. Chování přebírá z ../main.js: nájezd sekcí,
- * navigaci, mobilní menu, časovou osu a formulář. Navíc hlídá fotku
+ * navigaci, mobilní menu a časovou osu. Navíc hlídá fotku
  * v heru a dopočítává roky v oboru.
  */
 
@@ -31,7 +31,7 @@ document.querySelectorAll('[data-let-od]').forEach((el) => {
  * a navíc má pojistku, která po chvíli odkryje všechno.
  */
 const najizdi = [...document.querySelectorAll(
-  '.sekce__hlava, .karta, .cisla li, .remesla li, .postup li, .osa li, .list, .telefon, .formular'
+  '.sekce__hlava, .karta, .cisla li, .umim li, .postup li, .osa li, .velky-odkaz'
 )];
 
 /* Nadpisy se neodkrývají posunem, ale odhrnutím masky zleva doprava. */
@@ -110,69 +110,6 @@ if (nav && burger) {
   nav.querySelectorAll('.nav__menu a').forEach((a) => a.addEventListener('click', () => prepni(false)));
   document.addEventListener('click', (e) => { if (!nav.contains(e.target)) prepni(false); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') prepni(false); });
-}
-
-
-/* Odeslání formuláře ---------------------------------------------------
- *
- * Formulář odchází na pozadí přes FormSubmit, takže návštěvník neopustí
- * stránku. Tlačítko mezitím prochází stavy Odeslat → Odesílám → Odesláno.
- * AJAX rozhraní FormSubmitu vrací success jako řetězec "true" / "false".
- */
-const formular = document.querySelector('.formular');
-const hlaska = document.querySelector('.hlaska');
-
-if (formular && hlaska) {
-  const tlacitko = formular.querySelector('button[type="submit"]');
-  const popisek = tlacitko.querySelector('span');
-  const klid = popisek.dataset.klid || popisek.textContent;
-
-  const stav = (text, trida) => {
-    hlaska.textContent = text;
-    hlaska.className = 'hlaska' + (trida ? ' hlaska--' + trida : '');
-  };
-
-  formular.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    if (!formular.reportValidity()) return;
-
-    const data = new FormData(formular);
-
-    tlacitko.disabled = true;
-    tlacitko.classList.add('btn--pracuje');
-    popisek.textContent = 'Odesílám';
-    stav('');
-
-    try {
-      const odpoved = await fetch(formular.action, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: data,
-      });
-      const vysledek = await odpoved.json().catch(() => ({}));
-
-      if (odpoved.ok && String(vysledek.success) !== 'false') {
-        tlacitko.classList.remove('btn--pracuje');
-        tlacitko.classList.add('btn--hotovo');
-        popisek.textContent = 'Odesláno';
-        stav('Díky, brzy se ozvu.', 'ok');
-        formular.reset();
-        setTimeout(() => {
-          tlacitko.classList.remove('btn--hotovo');
-          popisek.textContent = klid;
-          tlacitko.disabled = false;
-        }, 2600);
-      } else {
-        throw new Error(vysledek.message || 'odeslání selhalo');
-      }
-    } catch (chyba) {
-      tlacitko.classList.remove('btn--pracuje');
-      popisek.textContent = klid;
-      tlacitko.disabled = false;
-      stav('Nepodařilo se odeslat. Zavolejte na 602 424 224, nebo napište na karel.drexler@volny.cz.', 'chyba');
-    }
-  });
 }
 
 

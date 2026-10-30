@@ -259,7 +259,7 @@
   padding: 0;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(14px, 2vw, 28px);
 }
 
@@ -297,10 +297,10 @@
   color: var(--ink-soft);
 }
 
-/* Řemesla ------------------------------------------------------------ */
-/* Dlaždice bez fotek: číslo obrysem, nadpis, popis. Pod kurzorem se
+/* Co umím ----------------------------------------------------------- */
+/* Dlaždice s ikonou: v klidu papír s tenkým rámem, pod kurzorem se
    rozsvítí do červené jako zbytek stránky. */
-.remesla {
+.umim {
   margin: clamp(32px, 5vh, 56px) 0 0;
   padding: 0;
   list-style: none;
@@ -309,20 +309,21 @@
   gap: clamp(10px, 1.2vw, 14px);
 }
 
-.remesla li {
+.umim li {
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  align-content: start;
+  gap: 10px;
   padding: clamp(20px, 2vw, 28px);
-  border: 1px solid rgba(255, 255, 255, .14);
+  border: 1px solid #e2dbd2;
   border-radius: 16px;
-  background: rgba(255, 255, 255, .03);
+  background: var(--paper);
   overflow: hidden;
   isolation: isolate;
-  transition: border-color .4s ease, translate .4s cubic-bezier(.2, .8, .2, 1);
+  transition: border-color .4s ease, color .4s ease, translate .4s cubic-bezier(.2, .8, .2, 1);
 }
 
-.remesla li::before {
+.umim li::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -332,22 +333,27 @@
   transition: opacity .45s ease;
 }
 
-.remesla li:hover { border-color: transparent; translate: 0 -4px; }
-.remesla li:hover::before { opacity: 1; }
+.umim li:hover { border-color: transparent; color: var(--paper); translate: 0 -4px; }
+.umim li:hover::before { opacity: 1; }
 
-.remesla__cislo {
-  font-family: var(--hero-face);
-  font-size: clamp(54px, 5.4vw, 84px);
-  line-height: .9;
-  color: transparent;
-  -webkit-text-stroke: 1.4px var(--red-400);
-  transition: -webkit-text-stroke-color .4s ease;
+.umim__ikona {
+  display: grid;
+  place-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: clamp(14px, 2.4vh, 26px);
+  border-radius: 14px;
+  background: var(--ink);
+  color: var(--paper);
+  transition: background-color .4s ease, color .4s ease;
 }
 
-.remesla li:hover .remesla__cislo { -webkit-text-stroke-color: rgba(255, 255, 255, .85); }
+.umim__ikona svg { width: 26px; height: 26px; }
 
-.remesla h3 {
-  margin: clamp(28px, 4vh, 44px) 0 10px;
+.umim li:hover .umim__ikona { background: var(--paper); color: var(--red-600); }
+
+.umim h3 {
+  margin: 0;
   font-family: var(--hero-face);
   font-weight: 400;
   font-size: clamp(24px, 2.3vw, 34px);
@@ -355,15 +361,15 @@
   text-transform: uppercase;
 }
 
-.remesla p {
+.umim p {
   margin: 0;
   font-size: 14.5px;
   line-height: 1.55;
-  color: rgba(255, 255, 255, .68);
+  color: var(--ink-soft);
   transition: color .4s ease;
 }
 
-.remesla li:hover p { color: rgba(255, 255, 255, .92); }
+.umim li:hover p { color: rgba(255, 255, 255, .9); }
 
 /* Postup -------------------------------------------------------------- */
 .postup {
@@ -372,7 +378,7 @@
   list-style: none;
   counter-reset: krok;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: clamp(12px, 1.6vw, 22px);
 }
 
@@ -380,7 +386,7 @@
   counter-increment: krok;
   position: relative;
   padding-top: 22px;
-  border-top: 3px solid var(--ink);
+  border-top: 3px solid rgba(255, 255, 255, .85);
 }
 
 /* Čtvereček na lince: krok, kterým se prochází. */
@@ -391,7 +397,7 @@
   left: 0;
   width: 14px;
   height: 14px;
-  background: var(--red-600);
+  background: var(--red-500);
   transform: rotate(45deg);
 }
 
@@ -402,7 +408,7 @@
   font-family: var(--hero-face);
   font-size: clamp(30px, 3vw, 44px);
   line-height: 1;
-  color: var(--red-600);
+  color: var(--red-400);
 }
 
 .postup h3 {
@@ -418,89 +424,11 @@
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--ink-soft);
-}
-
-/* Plošina -------------------------------------------------------------- */
-.plosina {
-  display: grid;
-  gap: clamp(32px, 5vw, 90px);
-  grid-template-columns: minmax(0, 1fr) minmax(0, .95fr);
-  align-items: center;
-}
-
-.plosina .btn--tmavy { margin-top: clamp(24px, 3.6vh, 40px); }
-
-/* Technický list jako štítek na stroji: tmavý, hrubé číslo nahoře. */
-.list {
-  padding: clamp(22px, 2.6vw, 36px);
-  border-radius: 20px;
-  background: var(--ink);
-  color: var(--paper);
-  box-shadow: 0 30px 70px -30px rgba(92, 10, 12, .55);
-}
-
-.list__hlava {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 0 0 clamp(16px, 2.4vh, 24px);
-  padding-bottom: clamp(14px, 2vh, 20px);
-  border-bottom: 3px solid var(--red-500);
-}
-
-.list__hlava span:first-child {
-  font-family: var(--hero-face);
-  font-size: clamp(56px, 6vw, 96px);
-  line-height: .85;
-}
-
-.list__hlava span:last-child {
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, .6);
-  text-align: right;
-}
-
-.list dl { margin: 0; }
-
-.list dl > div {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 11px 0;
-  border-bottom: 1px dashed rgba(255, 255, 255, .16);
-}
-
-.list dl > div:last-child { border-bottom: 0; padding-bottom: 0; }
-
-.list dt {
-  font-size: 13.5px;
   color: rgba(255, 255, 255, .66);
 }
 
-.list dd {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-
-.list .list__hlavni dd {
-  font-family: var(--hero-face);
-  font-weight: 400;
-  font-size: clamp(30px, 3vw, 44px);
-  line-height: 1;
-  color: var(--red-400);
-}
-
-/* Výzva: telefon ------------------------------------------------------- */
-.telefon {
+/* Kontakt: velký odkaz na LinkedIn ------------------------------------ */
+.velky-odkaz {
   position: relative;
   display: grid;
   justify-self: end;
@@ -512,7 +440,7 @@
   transition: background-color .35s ease, color .35s ease, border-color .35s ease;
 }
 
-.telefon__popis {
+.velky-odkaz__popis {
   font-size: 12.5px;
   font-weight: 600;
   letter-spacing: .16em;
@@ -521,36 +449,42 @@
   transition: color .35s ease;
 }
 
-.telefon__cislo {
+.velky-odkaz__nazev {
   margin-top: 10px;
   font-family: var(--hero-face);
-  font-size: clamp(76px, 10vw, 168px);
-  line-height: .9;
+  font-size: clamp(88px, 12vw, 200px);
+  line-height: .88;
   letter-spacing: -.01em;
+  text-transform: uppercase;
 }
 
-.telefon__predvolba {
+.velky-odkaz__sipka {
   position: absolute;
-  top: clamp(24px, 3vw, 40px);
+  bottom: clamp(24px, 3vw, 40px);
   right: clamp(24px, 3vw, 40px);
-  font-family: var(--hero-face);
-  font-size: clamp(22px, 2.2vw, 32px);
-  color: rgba(255, 255, 255, .5);
-  transition: color .35s ease;
+  display: grid;
+  place-content: center;
+  width: clamp(48px, 5vw, 72px);
+  height: clamp(48px, 5vw, 72px);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--red-600);
+  transition: background-color .35s ease, color .35s ease, rotate .4s cubic-bezier(.2, .8, .2, 1);
 }
 
-.telefon:hover {
+.velky-odkaz__sipka svg { width: 45%; height: 45%; }
+
+.velky-odkaz:hover {
   background: var(--paper);
   border-color: var(--paper);
   color: var(--red-700);
 }
 
-.telefon:hover .telefon__popis,
-.telefon:hover .telefon__predvolba { color: var(--ink-soft); }
+.velky-odkaz:hover .velky-odkaz__popis { color: var(--ink-soft); }
+.velky-odkaz:hover .velky-odkaz__sipka { background: var(--red-600); color: var(--paper); rotate: 45deg; }
 
 /* Drobnosti ------------------------------------------------------------ */
-#postup::before { top: -30%; left: -20%; }
-#plosina::before { bottom: -30%; right: -18%; }
+#umim::before { top: -30%; left: -20%; }
 
 .paticka__copy a {
   border-bottom: 1px solid rgba(255, 255, 255, .3);
@@ -561,15 +495,13 @@
 
 /* Úzké obrazovky ----------------------------------------------------- */
 @media (max-width: 1040px) {
-  .remesla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .umim { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .postup { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: clamp(32px, 5vh, 48px); }
-  .cisla { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(32px, 5vh, 48px); }
-  .profil,
-  .plosina { grid-template-columns: 1fr; }
+  .profil { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 1000px) {
-  .telefon { justify-self: start; }
+  .velky-odkaz { justify-self: start; }
 }
 
 @media (max-width: 900px) {
@@ -659,19 +591,20 @@
 }
 
 @media (max-width: 720px) {
-  .remesla { grid-template-columns: 1fr; }
+  .umim { grid-template-columns: 1fr; }
   .postup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .karta > div { grid-template-columns: 1fr; gap: 4px; }
 }
 
-@media (max-width: 340px) {
-  .cisla { grid-template-columns: 1fr; }
+@media (max-width: 480px) {
+  .cisla { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
+  .cisla li:last-child { grid-column: 1 / -1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hs__slovo .line > span { transform: none; animation: none; }
   .razitko { opacity: 1; scale: 1; animation: none; }
   .razitko__kruh, .pas__jizda { animation: none; }
-  .remesla li, .remesla li::before, .telefon { transition: none; }
-  .remesla li:hover { translate: none; }
+  .umim li, .umim li::before, .velky-odkaz, .velky-odkaz__sipka { transition: none; }
+  .umim li:hover { translate: none; }
 }
